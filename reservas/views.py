@@ -2,9 +2,12 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
-from django.utils import timezone
+#from django.utils import timezone
 from .models import Sala, Reservacion
 from .serializers import SalaSerializer, ReservacionSerializer
+from datetime import datetime, timezone
+import pytz
+
 
 class SalaViewSet(viewsets.ModelViewSet):
     queryset = Sala.objects.all() # 1
@@ -16,10 +19,25 @@ class ReservacionViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
+
+        # 6
+        hora_actual = datetime.now()
+        aux = str(hora_actual)
+        aux = aux.split('.')[0]
+        aux += "-06:00"
+        hora_actual = datetime.strptime(aux, "%Y-%m-%d %H:%M:%S%z")
+
         if serializer.is_valid():
+            # 7
             sala = serializer.validated_data['sala']
             hora_inicio = serializer.validated_data['hora_inicio']
+            hora_inicio.astimezone()
             hora_fin = serializer.validated_data['hora_fin']
+            hora_fin.astimezone()
+
+            # 8
+            if hora_inicio < hora_actual or hora_fin < hora_actual:
+                return Response({"error": "No se puede reservar en un tiempo pasado"}, status=status.HTTP_400_BAD_REQUEST)
 
             # 2
             reservas_existentes = Reservacion.objects.filter(sala=sala)
@@ -38,3 +56,8 @@ class ReservacionViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# 5
+def home(request):
+    return render(request, 'index.html')

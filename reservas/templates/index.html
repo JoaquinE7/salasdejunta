@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración de Salas</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+
+    <h1>Administración de Salas de Juntas</h1>
+
+    <h2>Salas Disponibles</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Capacidad</th>
+            </tr>
+        </thead>
+        <tbody id="salas-body"></tbody>
+    </table>
+
+    <h2>Reservar una Sala</h2>
+    <form id="reserva-form">
+        <label for="sala">Sala:</label>
+        <select name="sala" id="sala_select">
+        </select>
+        <br><br>
+
+        <label for="inicio">Hora de Inicio:</label>
+        <input type="datetime-local" id="inicio" required>
+        <br><br>
+
+        <label for="fin">Hora de Fin:</label>
+        <input type="datetime-local" id="fin" required>
+        <br><br>
+
+        <button type="submit">Reservar</button>
+    </form>
+
+    <h2>Reservaciones</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Sala</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+            </tr>
+        </thead>
+        <tbody id="reservas-body"></tbody>
+    </table>
+
+    <script src="{% static 'scripts.js' %}"></script>
+
+</body>
+</html>

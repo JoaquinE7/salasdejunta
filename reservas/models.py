@@ -29,4 +29,4 @@ class Reservacion(models.Model):
                 raise ValidationError("La sala ya esta reservada en este horario.")
 
     def __str__(self):
-        return f"{self.sala.nombre} - {self.hora_inicio.strftime('%d-%m-%Y %H:%M')} a {self.hora_fin.strftime('%H:%M')}"
+        return f"{self.sala.nombre} - {self.hora_inicio.strftime('%Y-%m-%d %H:%M')} a {self.hora_fin.strftime('%H:%M')}"
