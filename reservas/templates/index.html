@@ -6,95 +6,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administración de Salas</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
+    <div class="container">
+        <h1>Administración de Salas de Juntas</h1>
 
-    <h1>Administración de Salas de Juntas</h1>
+        <h2>Salas Disponibles</h2>
+        <button id="crear-sala-btn" class="btn btn-primary">Crear Sala</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Capacidad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="salas-body"></tbody>
+        </table>
 
-    <h2>Salas Disponibles</h2>
-    <button id="crear-sala-btn">Crear Sala</button>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Capacidad</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="salas-body"></tbody>
-    </table>
-
-    <div id="crear-sala-modal" class="modal">
-        <div class="modal-content">
-            <h2>Crear Sala</h2>
-            <form id="crear-sala-form">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" required>
-                <br><br>
-
-                <label for="capacidad">Capacidad:</label>
-                <input type="number" id="capacidad" required>
-                <br><br>
-
-                <button type="submit">Crear</button>
-                <button type="button" id="cerrar-modal">Cerrar</button>
-            </form>
+        <div id="crear-sala-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Crear Sala</h2>
+                </div>
+                <form id="crear-sala-form">
+                    <div class="modal-body">
+                        <label for="nombre" class="col-form-label"><b>Nombre:</b></label>
+                        <input type="text" id="nombrer" class="form-control" required>
+                        <label for="capacidad" class="col-form-label"><b>Capacidad:</b></label>
+                        <input type="number" id="capacidad" class="form-control" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Crear</button>
+                        <button type="button" id="cerrar-modal" class="btn btn-danger">Cerrar</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <div id="modificar-sala-modal" class="modal">
-        <div class="modal-content">
-            <h2 id="titulo_sala">Modificar</h2>
-            <form id="modificar-sala-form">
-                <input type="hidden" id="id_sala">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre_modificar" required>
-                <br><br>
-
-                <label for="capacidad">Capacidad:</label>
-                <input type="number" id="capacidad_modificar" required>
-                <br><br>
-
-                <button type="submit">Modificar</button>
-                <button type="button" id="cerrar-mod-modal">Cerrar</button>
-            </form>
+        <div id="modificar-sala-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="titulo_sala">Modificar</h2>
+                </div>
+                <form id="modificar-sala-form">
+                    <div class="modal-body">
+                            <input type="hidden" id="id_sala">
+                            <label for="nombre" class="col-form-label"><b>Nombre:</b></label>
+                            <input type="text" id="nombre_modificar" class="form-control" required>
+                            <label for="capacidad" class="col-form-label"><b>Capacidad:</b></label>
+                            <input type="number" id="capacidad_modificar" class="form-control" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Modificar</button>
+                        <button type="button" id="cerrar-mod-modal" class="btn btn-danger">Cerrar</button>
+                    </div>
+                </form>
+            </div>
         </div>
+
+        <h2>Reservar una Sala</h2>
+        <form id="reserva-form" class="row g-3">
+            <div class="col-auto">
+                <label for="sala">Sala:</label>
+            </div>
+            <div class="col-auto">
+                <select name="sala" id="sala_select" class="form-select">
+                </select>
+            </div>
+            <div class="col-auto">
+                <label for="inicio">Hora de Inicio:</label>
+            </div>
+            <div class="col-auto">
+                <input type="datetime-local" id="inicio" class="form-control" required>
+            </div>
+            <div class="col-auto">
+                <label for="fin">Hora de Fin:</label>
+            </div>
+            <div class="col-auto">
+                <input type="datetime-local" id="fin" class="form-control" required>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-success">Reservar</button>
+            </div>
+        </form>
+
+        <h2>Reservaciones</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Sala</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="reservas-body"></tbody>
+        </table>
+
     </div>
-
-    <h2>Reservar una Sala</h2>
-    <form id="reserva-form">
-        <label for="sala">Sala:</label>
-        <select name="sala" id="sala_select">
-        </select>
-        <br><br>
-
-        <label for="inicio">Hora de Inicio:</label>
-        <input type="datetime-local" id="inicio" required>
-        <br><br>
-
-        <label for="fin">Hora de Fin:</label>
-        <input type="datetime-local" id="fin" required>
-        <br><br>
-
-        <button type="submit">Reservar</button>
-    </form>
-
-    <h2>Reservaciones</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Sala</th>
-                <th>Inicio</th>
-                <th>Fin</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="reservas-body"></tbody>
-    </table>
-
     <script src="{% static 'scripts.js' %}"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -15,8 +15,8 @@ function cargarSalas() {
                                 <td>${sala.nombre}</td>
                                 <td>${sala.capacidad}</td>
                                 <td>
-                                    <button onclick="editarSala(${sala.id})">Editar</button>
-                                    <button onclick="eliminarSala(${sala.id})">Eliminar</button>
+                                    <button onclick="editarSala(${sala.id})" class="btn btn-info">Editar</button>
+                                    <button onclick="eliminarSala(${sala.id})" class="btn btn-danger">Eliminar</button>
                                 </td>
                             </tr>`;
                 tbody.innerHTML += fila;
@@ -79,7 +79,7 @@ function editarSala(id) {
     fetch(`http://127.0.0.1:8000/api/salas/${id}`)
         .then(response => response.json())
         .then(data => {
-            document.getElementById('titulo_sala').innerHTML += ` ${data.nombre}`;
+            document.getElementById('titulo_sala').innerHTML = `Modificar ${data.nombre}`;
             document.getElementById('id_sala').value = id;
             document.getElementById('nombre_modificar').value = data.nombre;
             document.getElementById('capacidad_modificar').value = data.capacidad;
@@ -146,17 +146,30 @@ function cargarReservas() {
             data.forEach(reserva => {
                 let fila = `<tr>
                                 <td>${reserva.id}</td>
-                                <td>${reserva.sala}</td>
+                                <td name="sala_id_${reserva.sala}"></td>
                                 <td>${reserva.hora_inicio}</td>
                                 <td>${reserva.hora_fin}</td>
                                 <td>
-                                    <button onclick="liberarSala(${reserva.id})">Liberar</button>
+                                    <button onclick="liberarSala(${reserva.id})" class="btn btn-danger">Liberar</button>
                                 </td>
                             </tr>`;
                 tbody.innerHTML += fila;
             });
         })
         .catch(error => console.error('Error al obtener reservaciones: ', error));
+        
+        // 12
+        fetch('http://127.0.0.1:8000/api/salas/')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(sala => {
+                let elementos = document.querySelectorAll(`td[name="sala_id_${sala.id}"]`);
+                elementos.forEach(td => {
+                    td.innerHTML = sala.nombre;
+                });
+            });
+        })
+        .catch(error => console.error('Error al obtener salas: ', error));
 }
 
 // 11
