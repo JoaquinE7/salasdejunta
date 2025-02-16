@@ -12,16 +12,55 @@
     <h1>Administración de Salas de Juntas</h1>
 
     <h2>Salas Disponibles</h2>
+    <button id="crear-sala-btn">Crear Sala</button>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Capacidad</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody id="salas-body"></tbody>
     </table>
+
+    <div id="crear-sala-modal" class="modal">
+        <div class="modal-content">
+            <h2>Crear Sala</h2>
+            <form id="crear-sala-form">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" required>
+                <br><br>
+
+                <label for="capacidad">Capacidad:</label>
+                <input type="number" id="capacidad" required>
+                <br><br>
+
+                <button type="submit">Crear</button>
+                <button type="button" id="cerrar-modal">Cerrar</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modificar-sala-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="titulo_sala">Modificar</h2>
+            <form id="modificar-sala-form">
+                <input type="hidden" id="id_sala">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre_modificar" required>
+                <br><br>
+
+                <label for="capacidad">Capacidad:</label>
+                <input type="number" id="capacidad_modificar" required>
+                <br><br>
+
+                <button type="submit">Modificar</button>
+                <button type="button" id="cerrar-mod-modal">Cerrar</button>
+            </form>
+        </div>
+    </div>
 
     <h2>Reservar una Sala</h2>
     <form id="reserva-form">
@@ -49,6 +88,7 @@
                 <th>Sala</th>
                 <th>Inicio</th>
                 <th>Fin</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody id="reservas-body"></tbody>

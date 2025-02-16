@@ -5,7 +5,7 @@ from rest_framework import status
 #from django.utils import timezone
 from .models import Sala, Reservacion
 from .serializers import SalaSerializer, ReservacionSerializer
-from datetime import datetime, timezone
+from datetime import datetime
 import pytz
 
 
@@ -35,6 +35,9 @@ class ReservacionViewSet(viewsets.ModelViewSet):
             hora_fin = serializer.validated_data['hora_fin']
             hora_fin.astimezone()
 
+            hora_inicio = hora_inicio.astimezone()
+            hora_fin = hora_fin.astimezone()
+
             # 8
             if hora_inicio < hora_actual or hora_fin < hora_actual:
                 return Response({"error": "No se puede reservar en un tiempo pasado"}, status=status.HTTP_400_BAD_REQUEST)
@@ -53,6 +56,8 @@ class ReservacionViewSet(viewsets.ModelViewSet):
             if (hora_fin < hora_inicio):
                 return Response({"error": "Reservacion no valida"}, status=status.HTTP_400_BAD_REQUEST)
 
+            serializer.validated_data['hora_inicio'] = hora_inicio
+            serializer.validated_data['hora_fin'] = hora_fin
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
