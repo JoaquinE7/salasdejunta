@@ -34,6 +34,8 @@ function cargarSalas() {
 // 5
 document.getElementById('crear-sala-btn').addEventListener('click', function() {
     document.getElementById('crear-sala-modal').style.display = 'block';
+    document.getElementById('nombre').value = "";
+    document.getElementById('capacidad').value = "";
 });
 
 // 6
@@ -63,13 +65,22 @@ document.getElementById('crear-sala-form').addEventListener('submit', function(e
         },
         body: JSON.stringify(datos)
     })
-    .then(response => response.json())
+    .then(response => {
+        // 13
+        if (!response.ok) {
+            return response.json().then(err => { throw err; });
+        }
+        return response.json()
+    })
     .then(data => {
         alert('Sala creada correctamente');
         cargarSalas();
         document.getElementById('crear-sala-modal').style.display = 'none';
     })
-    .catch(error => console.error('Error al crear la sala:', error));
+    .catch(error => {
+        alert('No se pudo crear la sala, verifique que el nombre sea unico');
+        console.error('Error al crear la sala:', error);
+    });
 });
 
 // 8
@@ -126,6 +137,7 @@ function eliminarSala(id) {
             if (response.ok) {
                 alert('Sala eliminada correctamente');
                 cargarSalas();
+                cargarReservas();
             } else {
                 alert('Error al eliminar la sala');
             }

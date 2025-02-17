@@ -13,6 +13,22 @@ class SalaViewSet(viewsets.ModelViewSet):
     queryset = Sala.objects.all() # 1
     serializer_class = SalaSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        
+        if serializer.is_valid():
+            nombre = serializer.validated_data['nombre']
+            
+            # 9
+            if Sala.objects.filter(nombre=nombre).exists():
+                return Response({"error": "Ya existe una sala con este nombre"}, status=status.HTTP_400_BAD_REQUEST)
+            
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 class ReservacionViewSet(viewsets.ModelViewSet):
     queryset = Reservacion.objects.all() # 1
     serializer_class = ReservacionSerializer

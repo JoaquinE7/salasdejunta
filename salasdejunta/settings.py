@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     # 5
     'corsheaders',
 
-    'django_celery_beat',
+    #'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -149,6 +149,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 
+"""
 # Configuración de Celery
 CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Usando Redis como broker
 CELERY_ACCEPT_CONTENT = ['json']
@@ -162,3 +163,4 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': 60.0,  # En segundos (60 segundos = 1 minuto)
     },
 }
+"""
