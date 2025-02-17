@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
     # 5
     'corsheaders',
+
+    #'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +147,20 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",  # Permite el frontend desde el mismo servidor
     'http://localhost:8000',
 ]
+
+
+"""
+# Configuración de Celery
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Usando Redis como broker
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+
+CELERY_BEAT_SCHEDULE = {
+    'liberar_reservas_vencidas': {
+        'task': 'reservas.tasks.liberar_reservas_vencidas',  # Ruta de la tarea
+        'schedule': 60.0,  # En segundos (60 segundos = 1 minuto)
+    },
+}
+"""
